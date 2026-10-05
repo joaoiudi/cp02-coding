@@ -17,7 +17,7 @@ ex10_app_vulneravel.py   # Ex.10 — App vulnerável (laboratório)
 ex10_app_seguro.py       # Ex.10 — App corrigido
 ex10_exploit.py          # Ex.10 — Script de exploit/verificação
 ex10_auditoria.md        # Ex.10 — Relatório de auditoria OWASP
-.env.example             # Template de variáveis de ambiente
+.env                     # Variáveis de ambiente
 ```
 
 ## Pré-requisitos
@@ -29,18 +29,15 @@ pip install pymongo mysql-connector-python scikit-learn numpy flask requests
 ## Configuração do ambiente
 
 ```powershell
-# 1. Copie e edite o arquivo de variáveis
-Copy-Item .env.example .env
-# Edite .env com suas credenciais reais
 
-# 2. Carregue as variáveis no PowerShell
+# 1. Carregue as variáveis no PowerShell
 Get-Content .env | ForEach-Object {
     if ($_ -match "^([^#=]+)=(.+)$") {
         [System.Environment]::SetEnvironmentVariable($Matches[1].Trim(), $Matches[2].Trim())
     }
 }
 
-# 3. Suba os bancos via Docker
+# 2. Suba os bancos via Docker
 docker run -d --name mongo-lab  -p 27017:27017 mongo:7
 docker run -d --name mysql-lab  -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$env:MYSQL_PASSWORD -e MYSQL_DATABASE=seguranca mysql:8
 ```
@@ -71,11 +68,8 @@ python ex10_app_seguro.py       # porta 5010 (seguro)
 python ex10_exploit.py verificar  # verifica as defesas
 ```
 
-## Política de credenciais
 
-Todas as credenciais são lidas de variáveis de ambiente:
-- `MYSQL_PASSWORD` — obrigatória; `KeyError` intencional se ausente
-- `MONGO_URI` — com valor padrão `mongodb://localhost:27017/`
+
 
 
 
